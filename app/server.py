@@ -4,16 +4,20 @@ from models import *
 from forms import loginform
 import string, random
 
-USERS = {
-    1: User("a@a.com", 'a', 1),
-    2: User("b@b.com", 'b', 2),
-    3: User("c@c.com", 'c', 3),
-}
-
 def hashgen(size=5, chars=string.ascii_uppercase + string.digits):
 	return ''.join(random.choice(chars) for _ in range(size))
 
+def get_services():
+	my_groups = get_groups()
+	my_service_ids = models.ServiceMembership.query.join(my_groups, group_id=GroupMembership.group_id)
+	my_services = models.Service.join(my_service_ids, service_id=ServiceMembership.group_id)
+	return my_services
 
+def get_groups():
+	user_groups = []
+	my_group_ids = models.GroupMembership.query.filter_by(user_id=current_user.user_id)
+	my_groups = models.Group.query.join(my_groups, group_id=GroupMembership.group_id)
+	return my_groups 
 
 """
 	Creates a service and adds it to group. 
