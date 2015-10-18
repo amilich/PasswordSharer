@@ -1,6 +1,7 @@
 from flask import Flask, Markup, session, Response, render_template, request, flash
 from flask.ext.mandrill import Mandrill
 from forms import loginform
+from flask.ext.mysql import MySQL
 from flask.ext.login import (LoginManager, current_user, login_required,
                             login_user, logout_user, UserMixin, AnonymousUser,
                             confirm_login, fresh_login_required)
@@ -24,12 +25,35 @@ mandrill = Mandrill(app)
 app.config['SECRET_KEY'] = '123456790'
 
 
+mysql = MySQL() 
+# MySQL configurations
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
+app.config['MYSQL_DATABASE_DB'] = 'psdb'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+mysql.init_app(app)
+
+conn = mysql.connect()
+cursor = conn.cursor()
+data = cursor.fetchall()
+ 
+if len(data) is 0:
+    conn.commit()
+    return json.dumps({'message':'User created successfully !'})
+else:
+    return json.dumps({'error':str(data[0])})
+
+
+user_database = {1: ("JohnDoe@johnthebomb.com", "John", 1),
+               2: ("Jane@aol.com", "Jane", 2)} # temporary database
+
 USERS = {
     1: User(u"Andrew", 1),
     2: User(u"Bob", 2),
     3: User(u"Rob", 3, False),
 }
 USER_NAMES = dict((u.name, u) for u in USERS.itervalues())
+
 
 class User(UserMixin):
     def __init__(self, name, id, active=True):
