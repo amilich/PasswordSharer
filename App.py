@@ -35,13 +35,6 @@ mysql.init_app(app)
 
 conn = mysql.connect()
 cursor = conn.cursor()
-data = cursor.fetchall()
- 
-if len(data) is 0:
-    conn.commit()
-    return json.dumps({'message':'User created successfully !'})
-else:
-    return json.dumps({'error':str(data[0])})
 
 
 user_database = {1: ("JohnDoe@johnthebomb.com", "John", 1),
