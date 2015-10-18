@@ -1,0 +1,109 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300);
+
+html {
+	width: 100%;
+	height: 100%;
+}
+body {
+	font-family: 'Lato', sans-serif;
+	color: white;
+	width: 100%;
+	height: 100%;
+}
+
+#login-page {
+	background-color: #4A90E2;
+}
+
+
+#group-page {
+	background-color: #f6f6f6;
+}
+
+
+.navbar {
+	background-color: #4A90E2;
+	font-size: 25px;
+	line-height: 50px;
+}
+
+.container-fluid {
+	width: 100%;
+	height: 100%;
+}
+
+.login-container {
+	margin-top: 30px;
+}
+
+.title-container {
+	margin-top: 30%;
+	text-align: center;
+	font-size: 50px;
+}
+
+#full-width {
+	width: 100%;
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+.banner-container {
+	padding-left: 0;
+	padding-right: 0;
+	font-weight: 300;
+	padding-top: 70px;	
+	padding-bottom: 20px;
+	text-align: center;
+	font-size: 30px;
+	color: #4A90E2;
+	letter-spacing: 2px;
+	background-color: white;
+}
+
+.input-container, label {
+	font-weight: 300;
+}
+.input-container {
+	margin-bottom: 20px;
+}
+
+.submit-container {
+	margin-top: 30px;
+}
+
+#login-submit {
+	letter-spacing: 4px;
+	background-color: #4569F9; 
+	height: 45px;
+	border-radius: 5px;
+	font-size: 20px;
+	font-weight: 400;	
+	text-align: center;
+	line-height: 45px;
+	cursor: pointer;
+}
+
+#login-submit:hover {
+	background-color: #3458E8;
+}
+
+.group-container {
+	margin: 50px;
+	font-size: 25px;
+	color: black;	
+	letter-spacing: 2px;
+}
+
+.group-name-container {
+}
+
+.subscription-thumbnail {
+	display: inline-block;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.thumb {
+	width: 150px;
+}
