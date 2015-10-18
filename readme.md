@@ -7,3 +7,5 @@ Setup instructions:
 5. It will install pip and other stuff into the machine 
 6. Start the machine via ```source bin/activate``` (note: the bin folder should be inside the PasswordSharer repo folder) 
 7. Use pip to install all modules in requirements.txt - ```pip install -r /path/to/requirements.txt```
+8. Install flask-mysql 
+9. Install flask-sqlalchemy
