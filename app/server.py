@@ -3,12 +3,12 @@ from app import app, login_manager, mandrill
 from models import *
 from forms import loginform
 import string, random
+from sqlalchemy import *
+from sqlalchemy.orm import scoped_session, sessionmaker
 
-USERS = {
-    1: User("a@a.com", 'a', 1),
-    2: User("b@b.com", 'b', 2),
-    3: User("c@c.com", 'c', 3),
-}
+engine = create_engine('sqlite://///app.db', convert_unicode=True)
+metadata = MetaData()
+db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
 def hashgen(size=5, chars=string.ascii_uppercase + string.digits):
 	return ''.join(random.choice(chars) for _ in range(size))
@@ -99,26 +99,36 @@ def index():
     return "hi"
 
 
-@app.route("/add_to_group",methods=["POST"])
+@app.route("/add_to_group",methods=["GET", "POST"])
 def add_to_group():
+	form = loginform()
+	return render_template("add_to_group.html", form=form)
+
+
+@app.route("/execute_add_to_group",methods=["POST"])
+def execute_add_to_group():
     form = loginform()
-    user_table = Table('User', metadata, autoload=True)
+    print 1
     if form.validate_on_submit(): 
+    	print 2
         emails = form.emails.data
         group_id = form.group_id.data
         for email in emails:
+        	print 3
         	invite_to_group(email, group_id)
             
 
 def invite_to_group(email, group_id):
 	if hasAccount(email):
-    	send_group_invite_email(email, group_id)
-    else:
-    	send_signup_email(email, group_id)
+		send_group_invite_email(email, group_id)
+	else:
+		print 5
+		send_signup_email(email, group_id)
 
 
 def has_account(email, user_table):
-	user = user_table.select(user_table.c.email == email).execute().first()
+	print 4
+	user = models.user.select(user_table.c.email == email).execute().first()
 	if user:
 		return True;
 	else:
@@ -127,10 +137,12 @@ def has_account(email, user_table):
 
 def send_group_invite_email(email):
 	print 'send_group_invite_email'
+	return render_template("user_exists.html")
 
 
 def send_signup_email(email):
 	print 'send_group_invite_email'
+	return render_template("user_does_not_exist.html")
 
 
 @app.route("/testmail")
