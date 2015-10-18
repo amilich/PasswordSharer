@@ -13,13 +13,40 @@ USERS = {
 def hashgen(size=5, chars=string.ascii_uppercase + string.digits):
 	return ''.join(random.choice(chars) for _ in range(size))
 
+
+
+"""
+	Creates a service and adds it to group. 
+"""
+def create_service(): 
+	service_name = request.form['serviecname']
+	service_password = request.form['service_password']
+	owner_id = current_user.user_id 
+
+	s = models.Group(name=service_name, service_password=service_password, owner=owner_id)
+	db.session.add(g)
+	db.session.commit()
+	return
+
+"""
+	Add service to group. 
+"""
+def addServiceToGroup():
+	service_id = request.form['serviceid'] # should be hidden in the form
+	group_id = request.form['groupid']
+	add = models.Group(service_id=service_id, group_id=group_id)
+	db.sessionadd(add)
+	db.session.commit() 
+	return 
+
 """
 	Adds a group. 
 """
-def add_group():
-	name = request.form['servicename']
-	grouphash = hashgen(5)
-	g =  models.Group(name=name, grouphash=grouphash)
+def create_group():
+	group_name = request.form['groupname']
+	group_hash = hashgen(5)
+	
+	g = models.Group(name=group_name, grouphash=group_hash)
 	db.session.add(g)
 	db.session.commit()
 	return

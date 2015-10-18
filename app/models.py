@@ -29,7 +29,6 @@ class Service(db.Model):
 	name = db.Column(db.String(120), unique=True)
 	password = db.Column(db.String(64), unique=False)
 	owner = db.Column(db.String(120), db.ForeignKey('user.user_id')) # FK to user_id
-	group_id = db.Column(db.Integer, db.ForeignKey('group.group_id'))
 
 class Group(db.Model):
 	group_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -40,3 +39,8 @@ class GroupMembership(db.Model):
 	membership_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 	groupid = db.Column(db.Integer, db.ForeignKey('group.group_id')) # FK to group_id 
 	user_id = db.Column(db.Integer, db.ForeignKey('user.user_id')) # FK to user_id
+
+class ServiceMembership(db.Model):
+	servicemembership_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+	service_id = db.Column(db.Integer, db.ForeignKey('service.service_id')) # FK to service_id
+	group_id = db.Column(db.Integer, db.ForeignKey('group.group_id'))
