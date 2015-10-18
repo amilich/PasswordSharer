@@ -31,7 +31,7 @@ def create_service():
 """
 	Add service to group. 
 """
-def addServiceToGroup():
+def add_service_to_group():
 	service_id = request.form['serviceid'] # should be hidden in the form
 	group_id = request.form['groupid']
 	add = models.Group(service_id=service_id, group_id=group_id)
