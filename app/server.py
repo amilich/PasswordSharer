@@ -1,11 +1,16 @@
 from flask import Flask, Markup, session, Response, render_template, request, flash
-from models import User, Service, Group, GroupMembership
+from app import app, login_manager, mandrill
+from models import *
+from forms import loginform
 
 USERS = {
     1: User("a@a.com", 'a', 1),
     2: User("b@b.com", 'b', 2),
     3: User("c@c.com", 'c', 3),
 }
+
+def add_user(): 
+	return
 
 @app.route("/protected/",methods=["GET"])
 @login_required
@@ -55,6 +60,3 @@ def testmail():
     subject='Your invite to PasswordSharer',
     to=[{'email': 'useremail@useremail.com'}],
     text=Markup('Your invite to password sharer'))
-
-if __name__ == "__main__":
-    app.run(debug=True)

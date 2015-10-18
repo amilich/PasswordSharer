@@ -14,8 +14,6 @@ app = Flask(__name__)
 app.config.from_object('config')
 db = SQLAlchemy(app)
 
-from app import models
-
 # login config
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -31,3 +29,5 @@ mandrill = Mandrill(app)
 # we need a better secret key 
 app.config['SECRET_KEY'] = '123456790'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+
+from app import models, server
