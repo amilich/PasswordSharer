@@ -3,3 +3,5 @@ include/
 lib/
 pip-selfcheck.json/
 *.pyc
+*.db
+*.DS_Store
