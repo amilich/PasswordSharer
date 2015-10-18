@@ -53,6 +53,41 @@ def login():
 def index():
     return "hi"
 
+
+@app.route("/add_to_group",methods=["POST"])
+def add_to_group():
+    form = loginform()
+    user_table = Table('User', metadata, autoload=True)
+    if form.validate_on_submit(): 
+        emails = form.emails.data
+        group_id = form.group_id.data
+        for email in emails:
+        	invite_to_group(email, group_id)
+            
+
+def invite_to_group(email, group_id):
+	if hasAccount(email):
+    	send_group_invite_email(email, group_id)
+    else:
+    	send_signup_email(email, group_id)
+
+
+def has_account(email, user_table):
+	user = user_table.select(user_table.c.email == email).execute().first()
+	if user:
+		return True;
+	else:
+		return False
+
+
+def send_group_invite_email(email):
+	print 'send_group_invite_email'
+
+
+def send_signup_email(email):
+	print 'send_group_invite_email'
+
+
 @app.route("/testmail")
 def testmail():
 	mandrill.send_email(
