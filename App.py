@@ -23,6 +23,7 @@ mandrill = Mandrill(app)
 # we need a better secret key 
 app.config['SECRET_KEY'] = '123456790'
 
+
 class User(UserMixin):
     def __init__(self, email, password, userid, active=True):
         self.email = email
