@@ -2,6 +2,7 @@ from flask import Flask, Markup, session, Response, render_template, request
 from flask.ext.mandrill import Mandrill
 from flask.ext.login import LoginManager, UserMixin, login_required
 from forms import loginform
+from flask.ext.mysql import MySQL
 
 app = Flask(__name__)
 
@@ -22,6 +23,25 @@ app.config['SECRET_KEY'] = '123456790'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + app.config['DATABASE_FILE']
 # app.config['SQLALCHEMY_ECHO'] = True
 # db = SQLAlchemy(app)
+
+mysql = MySQL()
+ 
+# MySQL configurations
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
+app.config['MYSQL_DATABASE_DB'] = 'psdb'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+mysql.init_app(app)
+
+conn = mysql.connect()
+cursor = conn.cursor()
+data = cursor.fetchall()
+ 
+if len(data) is 0:
+    conn.commit()
+    return json.dumps({'message':'User created successfully !'})
+else:
+    return json.dumps({'error':str(data[0])})
 
 
 user_database = {1: ("JohnDoe@johnthebomb.com", "John", 1),
