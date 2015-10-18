@@ -1,48 +1,16 @@
 from flask import Flask, Markup, session, Response, render_template, request, flash
-from flask.ext.mandrill import Mandrill
+from app import app, login_manager, mandrill
+from models import *
 from forms import loginform
-from flask.ext.mysql import MySQL
-from flask.ext.login import (LoginManager, current_user, login_required,
-                            login_user, logout_user, UserMixin,
-                            confirm_login, fresh_login_required)
-
-app = Flask(__name__)
-
-# login config
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = "login"
-login_manager.login_message = u"Please log in to access this page."
-login_manager.refresh_view = "reauth"
-
-# Mandrill config
-app.config['MANDRILL_API_KEY'] = 'AlGPWLcyBN97zbLs59HcKw'
-app.config['MANDRILL_DEFAULT_FROM'] = 'noreply@passwordsharer.com'
-mandrill = Mandrill(app)
-
-# we need a better secret key 
-app.config['SECRET_KEY'] = '123456790'
-
-class User(UserMixin):
-    def __init__(self, email, password, userid, active=True):
-        self.email = email
-        self.id = userid
-        self.password = password
-        self.active = active
-    def is_active(self):
-        # make sure user's email is confirmed basically
-        return self.active
-    def is_anonymous(self):
-        return False
-    def is_authenticated(self):
-    	# this assumes you are already logged in, so this should be true
-        return True
 
 USERS = {
     1: User("a@a.com", 'a', 1),
     2: User("b@b.com", 'b', 2),
     3: User("c@c.com", 'c', 3),
 }
+
+def add_user(): 
+	return
 
 @app.route("/protected/",methods=["GET"])
 @login_required
@@ -92,6 +60,3 @@ def testmail():
     subject='Your invite to PasswordSharer',
     to=[{'email': 'useremail@useremail.com'}],
     text=Markup('Your invite to password sharer'))
-
-if __name__ == "__main__":
-    app.run(debug=True)
