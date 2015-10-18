@@ -1,5 +1,4 @@
 #!flask/bin/python
-
 from flask import Flask
 from flask.ext.mandrill import Mandrill
 from forms import loginform
