@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+
+  "name": "Password Sharer",
+  "description": "This extension shares your password.",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "key.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "identity"
+    // "activeTab",
+    // "https://ajax.googleapis.com/"
+  ]
+}
