@@ -2,6 +2,7 @@ from flask import Flask, Markup, session, Response, render_template, request, fl
 from app import app, login_manager, mandrill
 from models import *
 from forms import loginform
+import string, random
 
 USERS = {
     1: User("a@a.com", 'a', 1),
@@ -9,13 +10,57 @@ USERS = {
     3: User("c@c.com", 'c', 3),
 }
 
-def add_user(): 
+def hashgen(size=5, chars=string.ascii_uppercase + string.digits):
+	return ''.join(random.choice(chars) for _ in range(size))
+
+
+
+"""
+	Creates a service and adds it to group. 
+"""
+def create_service(): 
+	service_name = request.form['serviecname']
+	service_password = request.form['service_password']
+	owner_id = current_user.user_id 
+
+	s = models.Group(name=service_name, service_password=service_password, owner=owner_id)
+	db.session.add(g)
+	db.session.commit()
 	return
 
-@app.route("/protected/",methods=["GET"])
-@login_required
-def protected():
-    return Response(response="Hello Protected World!", status=200)
+"""
+	Add service to group. 
+"""
+def add_service_to_group():
+	service_id = request.form['serviceid'] # should be hidden in the form
+	group_id = request.form['groupid']
+	add = models.Group(service_id=service_id, group_id=group_id)
+	db.sessionadd(add)
+	db.session.commit() 
+	return 
+
+"""
+	Adds a group. 
+"""
+def create_group():
+	group_name = request.form['groupname']
+	group_hash = hashgen(5)
+	
+	g = models.Group(name=group_name, grouphash=group_hash)
+	db.session.add(g)
+	db.session.commit()
+	return
+
+"""
+	Adds a user to the system. 
+"""
+def add_user(): 
+	email = request.form['email']
+	password = request.form['password']
+	u = models.User(email=email, password=password)
+	db.session.add(u)
+	db.session.commit()
+	return
 
 @login_manager.user_loader
 def load_user(id):
@@ -24,9 +69,9 @@ def load_user(id):
 
 @app.route('/logout')
 def logout():
-	print 'hi2'
 	logout_user()
-	return 'logged out'
+	# need return home template
+	return render_template('index.html')
 
 @app.route("/login", methods=["GET","POST"])
 def login():
