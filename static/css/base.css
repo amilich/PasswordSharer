@@ -104,6 +104,11 @@ body {
 	margin-right: 20px;
 }
 
+.subscription-icon {
+	display: inline-block;
+	
+}
+
 .thumb {
 	width: 150px;
 }
