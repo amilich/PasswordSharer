@@ -37,7 +37,7 @@ class Group(db.Model):
 
 class GroupMembership(db.Model):
 	membership_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-	groupid = db.Column(db.Integer, db.ForeignKey('group.group_id')) # FK to group_id 
+	group_id = db.Column(db.Integer, db.ForeignKey('group.group_id')) # FK to group_id 
 	user_id = db.Column(db.Integer, db.ForeignKey('user.user_id')) # FK to user_id
 
 class ServiceMembership(db.Model):
